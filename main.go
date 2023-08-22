@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -14,7 +13,8 @@ import (
 
 	"finance/src/db"
 	"finance/src/models"
-	"finance/src/routes"
+	categoriesRouter "finance/src/routes/categories"
+	infoRouter "finance/src/routes/info"
 )
 
 var categories = []models.Category{
@@ -36,17 +36,13 @@ func main() {
 	}
 
 	router := gin.Default()
-	router.GET("/", getHome)
 	v1 := router.Group("/v1")
 	{
-		routes.Categories(v1.Group("/categories"), db)
+		infoRouter.Info(v1.Group("/"))
+		categoriesRouter.Categories(v1.Group("/categories"), db)
 	}
 
 	router.Run(fmt.Sprintf(":%s", port))
-}
-
-func getHome(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, "Hello, World!")
 }
 
 func initializeTables(db *sql.DB) {

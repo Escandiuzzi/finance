@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"finance/src/controllers"
+	categoryController "finance/src/controllers/category"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -11,14 +11,12 @@ import (
 
 func Categories(router *gin.RouterGroup, db *sql.DB) {
 
-	results, err := db.Query("SELECT * FROM categories;")
+	_, err := db.Query("SELECT * FROM categories;")
 
 	if err != nil {
 		log.Println("failed to execute query", err)
 		return
 	}
 
-	log.Println("query result", results)
-
-	router.GET("/", controllers.GetCategories)
+	router.GET("/", categoryController.GetCategories)
 }
