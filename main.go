@@ -12,7 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
+	"finance/src/db"
 	"finance/src/models"
+	"finance/src/routes"
 )
 
 var categories = []models.Category{
@@ -21,9 +23,9 @@ var categories = []models.Category{
 }
 
 func main() {
-	//db := db.Connect()
+	db := db.Connect()
 
-	//initializeTables(db)
+	initializeTables(db)
 
 	godotenv.Load()
 
@@ -35,10 +37,10 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/", getHome)
-	// v1 := router.Group("/v1")
-	// {
-	// 	routes.Categories(v1.Group("/categories"), db)
-	// }
+	v1 := router.Group("/v1")
+	{
+		routes.Categories(v1.Group("/categories"), db)
+	}
 
 	router.Run(fmt.Sprintf(":%s", port))
 }
