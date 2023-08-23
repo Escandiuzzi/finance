@@ -17,11 +17,6 @@ import (
 	infoRouter "finance/src/routes/info"
 )
 
-var categories = []models.Category{
-	{Title: "Food"},
-	{Title: "Clothes"},
-}
-
 func main() {
 	db := db.Connect()
 
@@ -43,6 +38,12 @@ func main() {
 	}
 
 	router.Run(fmt.Sprintf(":%s", port))
+}
+
+// Temporary data to test database initialization
+var categories = []models.Category{
+	{Title: "Food"},
+	{Title: "Clothes"},
 }
 
 func initializeTables(db *sql.DB) {
